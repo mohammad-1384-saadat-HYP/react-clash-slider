@@ -7,10 +7,18 @@ const Main = () => {
     const [hero, setHero] = useState([]);
     const [selectedIndex, setSelectedIndex] = useState(0);
 
+    const getHeroes = async () => {
+        try {
+            const response = await fetch("http://localhost:8000/heroes");
+            !response.ok && console.log("network response was not ok");
+            setHero(await response.json())
+        }catch (error){
+            console.log(error)
+        }
+    }
+
     useEffect(() => {
-        fetch("http://localhost:8000/heroes")
-            .then(response => response.json())
-            .then(heroes => setHero(heroes));
+        getHeroes();
     }, []);
 
     const prevFun = () => {
